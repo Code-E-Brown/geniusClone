@@ -70,4 +70,5 @@ app.use((err, _req, res, _next) => {
         stack: isProduction ? null : err.stack,
     });
 });
+
 module.exports = app;
