@@ -10,11 +10,15 @@ body {
     height: 41px;
    justify-content: flex-end;
 }
-/* .upperNa div{
+/* .lowerNav__div {
+    position: relative;
+    bottom: 35px;
+}
+.lowerNav__div button {
     background-color: black;
-    display: flex;
-    height: 41px;
-   justify-content: flex-end;
+}
+.lowerNav__div a {
+    color: yellow;
 } */
 
 ul {

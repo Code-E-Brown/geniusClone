@@ -33,9 +33,12 @@ function Navigation({ isLoaded }) {
                 </div>
             </header>
             <header className='lowerNav'>
-                <div>
+                <div className='lowerNav__div'>
                     <ul>
                         <li>
+                            <button>
+                                <NavLink to='/songs/add'>Add a Song</NavLink>
+                            </button>
                             <button>
                                 <NavLink exact to="/">Home</NavLink>
                             </button>
