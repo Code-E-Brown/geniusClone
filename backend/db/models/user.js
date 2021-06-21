@@ -50,6 +50,21 @@ module.exports = (sequelize, DataTypes) => {
     });
   User.associate = function (models) {
     // associations can be defined here
+    User.hasMany(models.Song, { foreignKey: 'userId' })
+    User.hasMany(models.Comment, { foreignKey: 'userId' })
+    User.hasMany(models.Annotation, { foreignKey: 'userId' })
+    const columnMapping = {
+      through: 'CommentUpvote',
+      foreignKey: 'userId',
+      otherKey: 'commentId'
+    }
+    Comment.belongsToMany(models.User, columnMapping)
+    const columnMapping = {
+      through: 'AnnotationUpvote',
+      foreignKey: 'userId',
+      otherKey: 'annotationId'
+    }
+    Annotation.belongsToMany(models.User, columnMapping)
   };
 
   User.prototype.toSafeObject = function () { // remember, this cannot be an arrow function
