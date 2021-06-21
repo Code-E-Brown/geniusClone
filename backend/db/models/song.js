@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Song.associate = function (models) {
     // associations can be defined here
-    Song.BelongsTo(models.User, { foreignKey: 'userId' })
+    Song.belongsTo(models.User, { foreignKey: 'userId' })
     Song.belongsTo(models.Artist, { foreignKey: 'artistId' })
     Song.belongsTo(models.Tag, { foreignKey: 'tagId' })
     Song.hasMany(models.Comment, { foreignKey: 'songId' })
