@@ -23,7 +23,7 @@ export const SongDetails = () => {
                 <h3>Tag: {song.Tag.title}</h3>
 
                 <a href={song.youtubeUrl}>
-                    <h4>Click for song on Youtube</h4>
+                    <h4>Listen on Youtube</h4>
                 </a>
 
                 <div>
