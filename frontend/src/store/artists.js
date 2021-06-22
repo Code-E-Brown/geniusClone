@@ -26,7 +26,8 @@ export const getOneArtist = (id) => async dispatch => {
     if (response.ok) {
 
         const artistDetails = await response.json();
-        dispatch(addOneArtist(artistDetails))
+        // console.log('we know', artistDetails)
+        await dispatch(addOneArtist(artistDetails))
     }
 }
 
@@ -45,6 +46,24 @@ const artistsReducer = (state = initialState, action) => {
                 ...allArtists,
                 ...state,
                 list: action.artists
+            }
+        }
+        case ADD_ONE: {
+            // if (!state.action.artist.id) {
+            //     const newState = {
+            //         ...state,
+            //         [action.artist.id]: action.artist
+            //     }
+            //     const artistsList = newState.list.map(id => newState[id])
+            //     artistsList.push(action.artist)
+            //     return newState;
+            // }
+            return {
+                ...state,
+                [action.artist.id]: {
+                    ...state[action.artist.id],
+                    ...action.artist,
+                }
             }
         }
         default:

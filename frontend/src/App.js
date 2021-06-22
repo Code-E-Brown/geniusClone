@@ -7,6 +7,7 @@ import { HomeIndex } from "./components/Home";
 import { AddSongPage } from "./components/AddSongPage";
 import { ArtistsList } from "./components/ArtistsList";
 import { ArtistsDetails } from "./components/ArtistDetails";
+import { SongDetails } from "./components/SongDetails";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -37,8 +38,11 @@ function App() {
           <Route exact path='/artists'>
             <ArtistsList />
           </Route>
-          <Route path='/artists/:id'>
+          <Route exact path='/artists/:id'>
             <ArtistsDetails />
+          </Route>
+          <Route path='/songs/:songId'>
+            <SongDetails />
           </Route>
         </Switch>
       )

@@ -6,22 +6,32 @@ import { useSelector, useDispatch } from 'react-redux';
 export const ArtistsDetails = () => {
     const { id } = useParams();
     console.log(id)
-    const artist = useSelector(state => state.artists[id])
-    console.log(artist)
     const dispatch = useDispatch()
 
+    const artist = useSelector(state => state.artists[+id])
     useEffect(() => {
         dispatch(getOneArtist(id))
     }, [id]);
 
-    return (
-        <div>
-            <h1>{artist.title}</h1>
-            <img src={artist.image} alt="Artist Image" />
-            <h2>Songs:</h2>
-            {/* <ul>
+    if (artist) {
 
-            </ul> */}
-        </div>
-    );
+        return (
+            <div>
+                <h1>{artist.title}</h1>
+                <img src={artist.image} alt="Artist Image" />
+                <h2>Songs:</h2>
+                <ul>
+                    {artist.Songs &&
+                        artist.Songs.map(song => (
+                            <li key={song.id} >
+                                <NavLink to={`/songs/${song.id}`}>{song.title}</NavLink>
+                            </li>
+                        ))}
+                </ul>
+
+            </div >
+        );
+    } else {
+        return null;
+    }
 }
