@@ -58,13 +58,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       otherKey: 'commentId'
     }
-    Comment.belongsToMany(models.User, columnMapping)
-    const columnMapping = {
+    User.belongsToMany(models.Comment, columnMapping)
+    const columnMappingTwo = {
       through: 'AnnotationUpvote',
       foreignKey: 'userId',
       otherKey: 'annotationId'
     }
-    Annotation.belongsToMany(models.User, columnMapping)
+    User.belongsToMany(models.Annotation, columnMappingTwo)
   };
 
   User.prototype.toSafeObject = function () { // remember, this cannot be an arrow function
