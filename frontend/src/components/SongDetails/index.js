@@ -2,13 +2,13 @@ import { getOneSong } from '../../store/songs';
 import { NavLink, Link, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { SongComments } from '../SongComments';
 export const SongDetails = () => {
     const { songId } = useParams();
     const dispatch = useDispatch();
     const song = useSelector(state => state.song[songId])
 
-    console.log(song)
+    // console.log(song)
 
     useEffect(() => {
         // console.log(songId)
@@ -30,8 +30,7 @@ export const SongDetails = () => {
                     <h3>Lyrics:</h3>
                     <div>{song.lyrics}</div>
                 </div>
-
-
+                <SongComments id={song.id} />
             </div>
         )
     } else {
