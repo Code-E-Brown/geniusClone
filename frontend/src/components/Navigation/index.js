@@ -24,7 +24,6 @@ function Navigation({ isLoaded }) {
             </>
         );
     }
-
     return (
         <>
             <header className='upperNav'>
@@ -37,7 +36,10 @@ function Navigation({ isLoaded }) {
                     <ul>
                         <li>
                             <button>
-                                <NavLink to='/songs/add'>Add a Song</NavLink>
+                                <NavLink to='/songs/add'>Add Song</NavLink>
+                            </button>
+                            <button>
+                                <NavLink to='/artists'>Artists</NavLink>
                             </button>
                             <button>
                                 <NavLink exact to="/">Home</NavLink>
