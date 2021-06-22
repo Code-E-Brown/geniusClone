@@ -1,8 +1,13 @@
 const LOAD = 'artists/LOAD'
+const ADD_ONE = 'artists/ADD_ONE'
 
 const load = (artists) => ({
     type: LOAD,
     artists,
+})
+const addOneArtist = (artist) => ({
+    type: ADD_ONE,
+    artist,
 })
 
 export const getArtists = () => async dispatch => {
@@ -13,6 +18,16 @@ export const getArtists = () => async dispatch => {
         await dispatch(load(artists))
     }
 
+}
+
+export const getOneArtist = (id) => async dispatch => {
+    const response = await fetch(`/api/artists/${id}`)
+
+    if (response.ok) {
+
+        const artistDetails = await response.json();
+        dispatch(addOneArtist(artistDetails))
+    }
 }
 
 const initialState = { list: [] }

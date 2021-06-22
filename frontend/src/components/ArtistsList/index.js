@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 export const ArtistsList = () => {
-    const { artistsId } = useParams();
+
     const dispatch = useDispatch();
     const artists = useSelector(state => {
         return state.artists.list;
@@ -17,9 +17,14 @@ export const ArtistsList = () => {
     return (
         <div>
             <h1>Artists</h1>
-            {artists.map(artist => (
-                <NavLink to={`artists/${artist.id}`}>{artist.title}</NavLink>
-            ))}
+            <ul>
+
+                {artists.map(artist => (
+                    <li key={artist.id}>
+                        <NavLink to={`artists/${artist.id}`}>{artist.title}</NavLink>
+                    </li>
+                ))}
+            </ul>
         </div >
 
     )

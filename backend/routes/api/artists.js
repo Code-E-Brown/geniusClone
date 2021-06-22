@@ -13,4 +13,9 @@ router.get('/', asyncHandler(async (req, res) => {
     res.json(artists)
 }))
 
+router.get('/:id', asyncHandler(async (req, res) => {
+    const artist = await Artist.findByPk(req.params.id)
+    res.json(artist)
+}))
+
 module.exports = router;
