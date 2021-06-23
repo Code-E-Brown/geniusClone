@@ -4,7 +4,9 @@ import ReactQuill from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
 
+import './AddSongPage.css'
 
+import { Editor, CustomToolbar, Final } from '../Quill';
 
 
 export const AddSongPage = () => {
@@ -39,63 +41,64 @@ export const AddSongPage = () => {
             <h1>Add Song</h1>
             <h2>Primary info</h2>
             <form onSubmit={submitButton}>
-                <div>
-                    <label htmlFor='by'>By</label>
-                    <input
+                <div className='formBlock'>
+                    <label htmlFor='by'>By:</label>
+                    <input className='normalInput'
                         onChange={(e) => setBy(e.target.value)}
                         id='by' value={by} type='text' placeholder='The primary artist, author, creator, etc.'></input>
                 </div>
-                <div>
-                    <label htmlFor='title'>Title</label>
-                    <input id='title'
+                <div className='formBlock'>
+                    <label htmlFor='title'>Title:</label>
+                    <input className='normalInput' id='title'
                         onChange={(e) => setTitle(e.target.value)}
                         value={title} type='text' placeholder='Title'></input>
                 </div>
-                <div>
-                    <label>Primary Tag
-                        <input
-                            onChange={(e) => setTag(e.target.value)}
-                            type='radio'
-                            name='tag'
-                            value='rap'
-                        />Rap
-                        <input
-                            onChange={(e) => setTag(e.target.value)}
-                            type='radio'
-                            name='tag'
-                            value='pop'
-                        />Pop
-                        <input
-                            onChange={(e) => setTag(e.target.value)}
-                            type='radio'
-                            name='tag'
-                            value='r&b'
-                        />R&B
-                        <input
-                            onChange={(e) => setTag(e.target.value)}
-                            type='radio'
-                            name='tag'
-                            value='rock'
-                        />Rock
-                        <input
-                            onChange={(e) => setTag(e.target.value)}
-                            type='radio'
-                            name='tag'
-                            value='country'
-                        />Country
-                        <input
-                            onChange={(e) => setTag(e.target.value)}
-                            type='radio'
-                            name='tag'
-                            value='gospel'
-                        />Gospel
-                        <input
-                            onChange={(e) => setTag(e.target.value)}
-                            type='radio'
-                            name='tag'
-                            value='other'
-                        />Other
-                    </label>
+                <label className='tagLabel'>Primary Tag</label>
+                <div className='radioDiv'>
+                    {/* <label className='radioLabel'>Primary Tag: */}
+                    <input
+                        onChange={(e) => setTag(e.target.value)}
+                        type='radio'
+                        name='tag'
+                        value='rap'
+                    />Rap
+                    <input
+                        onChange={(e) => setTag(e.target.value)}
+                        type='radio'
+                        name='tag'
+                        value='pop'
+                    />Pop
+                    <input
+                        onChange={(e) => setTag(e.target.value)}
+                        type='radio'
+                        name='tag'
+                        value='r&b'
+                    />R&B
+                    <input
+                        onChange={(e) => setTag(e.target.value)}
+                        type='radio'
+                        name='tag'
+                        value='rock'
+                    />Rock
+                    <input
+                        onChange={(e) => setTag(e.target.value)}
+                        type='radio'
+                        name='tag'
+                        value='country'
+                    />Country
+                    <input
+                        onChange={(e) => setTag(e.target.value)}
+                        type='radio'
+                        name='tag'
+                        value='gospel'
+                    />Gospel
+                    <input
+                        onChange={(e) => setTag(e.target.value)}
+                        type='radio'
+                        name='tag'
+                        value='other'
+                    />Other
+                    {/* </label> */}
                 </div>
                 {/* <div>
                     <label htmlFor='lyrics'>Lyrics</label>
@@ -105,29 +108,36 @@ export const AddSongPage = () => {
                         rows="20" cols="40">
                     </textarea>
                 </div> */}
-                <div>
-                    <label>Lyrics</label>
-                    <ReactQuill onChange={(e) => setLyrics(e)} value={lyrics} />
+                <div className='quillBlock'>
+                    <label className='tagLabel'>Lyrics</label>
+                    {/* <Editor className="quill" onChange={(e) => setLyrics(e)} value={lyrics} /> */}
+                    <Editor lyrics={lyrics} setLyrics={setLyrics} />
+                    {/* <ReactQuill className="quill" onChange={(e) => setLyrics(e)} value={lyrics} /> */}
                 </div>
                 <div contentEditable='true' dangerouslySetInnerHTML={{ __html: lyrics }}>
 
                 </div>
-                <h3>
-                    Optional:
-                </h3>
-                <div>
-                    <label htmlFor='albumImage'>Album Image URL:</label>
-                    <input value={albumImage}
-                        onChange={(e) => setAlbumImage(e.target.value)}
-                        id='albumImage' type='text'></input>
+                <div className='addSong__lowerSection'>
+                    <h3 className='tagLabel'>
+                        Optional:
+                    </h3>
+                    <div className='formBlock'>
+                        <label htmlFor='albumImage'>Album Image URL:</label>
+                        <input className='normalInput' value={albumImage}
+                            onChange={(e) => setAlbumImage(e.target.value)}
+                            id='albumImage' type='text'></input>
+                    </div>
+                    <div className='formBlock'>
+                        <label htmlFor='youtubeLink'>Youtube URL:</label>
+                        <input className='normalInput' value={youtubeLink}
+                            onChange={(e) => setYoutubeLink(e.target.value)}
+                            id='youtubeLink' type='text'></input>
+                    </div>
+                    <div>
+                        <button className='formButton' type='submit'>Submit</button>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor='youtubeLink'>Youtube URL:</label>
-                    <input value={youtubeLink}
-                        onChange={(e) => setYoutubeLink(e.target.value)}
-                        id='youtubeLink' type='text'></input>
-                </div>
-                <button type='submit'>Submit</button>
+
             </form>
         </div>
     )
