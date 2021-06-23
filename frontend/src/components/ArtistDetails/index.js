@@ -40,8 +40,8 @@ export const ArtistsDetails = () => {
                     <h1>Songs:</h1>
                     {artist.Songs &&
                         artist.Songs.map(song => (
-                            <NavLink to={`/songs/${song.id}`}>
-                                <div className="songCard" key={song.id} >
+                            <NavLink key={song.id} to={`/songs/${song.id}`}>
+                                <div className="songCard">
                                     {song.title}
                                 </div>
                             </NavLink>
