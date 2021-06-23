@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import ReactQuill from 'react-quill';
+
+import 'react-quill/dist/quill.snow.css';
+
+
+
 
 export const AddSongPage = () => {
 
@@ -24,6 +30,9 @@ export const AddSongPage = () => {
         }
         console.log(data)
     }
+
+    let newLyrics = lyrics.replace(/^(")(")$/, '')
+
 
     return (
         <div className='addSong__form'>
@@ -88,13 +97,20 @@ export const AddSongPage = () => {
                         />Other
                     </label>
                 </div>
-                <div>
+                {/* <div>
                     <label htmlFor='lyrics'>Lyrics</label>
                     <textarea
                         onChange={(e) => setLyrics(e.target.value)}
                         value={lyrics} id="lyrics"
                         rows="20" cols="40">
                     </textarea>
+                </div> */}
+                <div>
+                    <label>Lyrics</label>
+                    <ReactQuill onChange={(e) => setLyrics(e)} value={lyrics} />
+                </div>
+                <div contentEditable='true' dangerouslySetInnerHTML={{ __html: lyrics }}>
+
                 </div>
                 <h3>
                     Optional:
