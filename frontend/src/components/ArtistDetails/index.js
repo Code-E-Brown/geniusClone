@@ -19,23 +19,33 @@ export const ArtistsDetails = () => {
         return (
             <div className='outerBox'>
                 <div className='artistDetails'>
-                    <h1 className='artistName'>{artist.title}</h1>
                     <img className='artistImage' src={artist.image} alt="Artist Image" />
                     {/* <div className='artistImage' style={{ backgroundImage: `url(${artist.image})` }} /> */}
 
                 </div >
                 <div className='songsDiv'>
-                    <h1>Songs:</h1>
-                    <ul>
+                    <h1 className='artistName'>{artist.title}</h1>
+                    {/* <ul>
                         {artist.Songs &&
                             artist.Songs.map(song => (
                                 <li key={song.id} >
-                                    <NavLink to={`/songs/${song.id}`}>{song.title}</NavLink>
+                                <NavLink to={`/songs/${song.id}`}>{song.title}</NavLink>
                                 </li>
-                            ))}
-                    </ul>
+                                ))}
+                            </ul> */}
+                    <div className="search">
+                        <input className="search__text" type="text" name="" placeholder="Type to search for something" />
+                        <a href="#" className="search__button"><i className="fas fa-search"></i></a>
+                    </div>
+                    <h1>Songs:</h1>
+                    {artist.Songs &&
+                        artist.Songs.map(song => (
+                            <div className="songCard" key={song.id} >
+                                <NavLink to={`/songs/${song.id}`}>{song.title}</NavLink>
+                            </div>
+                        ))}
                 </div>
-            </div>
+            </div >
         );
     } else {
         return null;
