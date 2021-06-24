@@ -37,7 +37,7 @@ router.get('/:id(\\d+)/comments', asyncHandler(async (req, res) => {
     })
     res.json(comments)
 }))
-router.post('/:id(\\d+)/annotations', asyncHandler(async (req, res) => {
+router.post('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res) => {
     // let { id } = req.params.id
     // id = +id
     // console.log(id, typeof id
@@ -46,25 +46,37 @@ router.post('/:id(\\d+)/annotations', asyncHandler(async (req, res) => {
     console.log(song)
     console.log(req.body)
     lyricsArray = song.lyrics.split('</p>')
-    console.log(lyricsArray)
+    // console.log(lyricsArray)
+    const annotation = await Annotation.build({
+        userId: req.user.id,
+        songId: +req.params.id,
+        body: req.body.testAnnotation,
+        startPos: 1,
+        endPos: 2
+    })
+
+    await annotation.save()
+
+
     let newArray = []
     lyricsArray.forEach((line => {
         if (line.includes(req.body.fullLine)) {
             // console.log('includesFulllLine')
             // console.log(line)
             // line.replace(req.body.selection, `<a>${req.body.selection}</>`)
-            newArray.push(line.replace(req.body.selection, `<a>${req.body.selection}</a>`))
+            newArray.push(line.replace(req.body.selection, `<a href='/annotations/${annotation.id}'>${req.body.selection}</a>`))
         } else {
             newArray.push(line)
         }
     }))
-    console.log('newkid', newArray.join('</p>'))
-    // const newLyrics = lyricsArray.join('')
-    // console.log(newLyrics)
-    // await song.Update({
-    //     lyrics
-    // })
+    // console.log('newkid', newArray.join('</p>'))
+    let newLyrics = newArray.join('</p>')
 
+    await song.update({
+        lyrics: newLyrics
+    })
+
+    // console.log(newAnnotation)
     res.json(song)
 }))
 

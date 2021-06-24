@@ -8,9 +8,10 @@ export const SongDetails = () => {
     let { songId } = useParams();
     const dispatch = useDispatch();
     const song = useSelector(state => state.song[songId])
+    const sessionUser = useSelector((state) => state.session.user);
     const [selection, setSelection] = useState('')
     const [fullLine, setFullLine] = useState('')
-
+    // const [reloader, setReloader] = useState(false)
 
 
     useEffect(() => {
@@ -51,17 +52,21 @@ export const SongDetails = () => {
     const editButton = (e) => {
         e.preventDefault();
         songId = +songId
+        const testAnnotation = 'This is an annotation test'
         const data = {
             selection,
             fullLine,
-            songId
+            songId,
+            testAnnotation
         }
         console.log('this is your payload', data)
 
         if (data) {
             dispatch(createAnnotation(data))
+            // setReloader(!reloader)
         }
     }
+
 
     if (song) {
         return (
@@ -79,7 +84,7 @@ export const SongDetails = () => {
                 </a>
 
                 <div>
-                    {selection.length > 0 &&
+                    {selection.length > 0 && sessionUser &&
                         <button onClick={editButton}>Edit</button>
                     }
                     <h3>Lyrics:</h3>
