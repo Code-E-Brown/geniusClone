@@ -62,7 +62,7 @@ router.post('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res)
             // console.log('includesFulllLine')
             // console.log(line)
             // line.replace(req.body.selection, `<a>${req.body.selection}</>`)
-            newArray.push(line.replace(req.body.selection, `<a href='/annotations/${annotation.id}'>${req.body.selection}</a>`))
+            newArray.push(line.replace(req.body.selection, `<a id=${annotation.id} href='/annotations/${annotation.id}'>${req.body.selection}</a>`))
         } else {
             newArray.push(line)
         }
@@ -75,7 +75,7 @@ router.post('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res)
     })
 
     // console.log(newAnnotation)
-    res.json(song)
+    res.json(annotation)
 }))
 
 module.exports = router;

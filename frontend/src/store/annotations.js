@@ -6,9 +6,9 @@ const singleSongAnnotations = (annotations) => ({
     annotations,
 })
 
-export const getAnnotationsForSong = (payload) => async dispatch => {
-    const response = await csrfFetch()
-}
+// export const getAnnotationsForSong = (payload) => async dispatch => {
+//     const response = await csrfFetch()
+// }
 
 
 
@@ -19,7 +19,9 @@ export const createAnnotation = (payload => async dispatch => {
     })
     if (response.ok) {
         let json = await response.json()
-        console.log(json)
+        if (json) {
+            return json;
+        }
     }
 
 })

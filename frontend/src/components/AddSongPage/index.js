@@ -104,7 +104,7 @@ export const AddSongPage = () => {
     }
 
 
-    if (!sessionUser) return <Redirect to="/login" />;
+    if (!sessionUser) return <Redirect to="/" />;
 
     return (
         <div className='addSong__form'>

@@ -2,3 +2,8 @@
     background-color: rgb(255,255,100);
     font-weight: bold;
 }
+
+.modalDiv{
+    height: 300px;
+    width: 500px;
+}

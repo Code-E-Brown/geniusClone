@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SongComments } from '../SongComments';
 import { createAnnotation } from '../../store/annotations';
+import AnnotationFormModal from '../AnnotationFormModal';
 import './SongDetails.css'
 export const SongDetails = () => {
     let { songId } = useParams();
@@ -12,7 +13,11 @@ export const SongDetails = () => {
     const sessionUser = useSelector((state) => state.session.user);
     const [selection, setSelection] = useState('')
     const [fullLine, setFullLine] = useState('')
+
     // const [reloader, setReloader] = useState(false)
+
+    // selection = { selection }
+    // fullLine = { fullLine }
 
 
     useEffect(() => {
@@ -63,12 +68,17 @@ export const SongDetails = () => {
         console.log('this is your payload', data)
 
         if (data) {
-            await dispatch(createAnnotation(data))
+            const newAnnotation = await dispatch(createAnnotation(data))
             await dispatch(getOneSong(songId))
             // setReloader(!reloader)
+            console.log(newAnnotation)
         }
     }
 
+    const testOnClick = (e) => {
+        e.preventDefault()
+        console.log(e.target.id)
+    }
 
     if (song) {
         return (
@@ -87,10 +97,11 @@ export const SongDetails = () => {
 
                 <div>
                     {selection.length > 0 && sessionUser &&
-                        <button onClick={editButton}>Edit</button>
+                        <AnnotationFormModal selection={selection} songId={songId} fullLine={fullLine} />
+                        // <button onClick={editButton}>Edit</button>
                     }
                     <h3>Lyrics:</h3>
-                    <div className='lyricsDivClass' onMouseUp={mouseUp} dangerouslySetInnerHTML={{ __html: song.lyrics }}></div>
+                    <div className='lyricsDivClass' onClick={testOnClick} onMouseUp={mouseUp} dangerouslySetInnerHTML={{ __html: song.lyrics }}></div>
 
                     {/* <div>{song.lyrics}</div> */}
                 </div>
