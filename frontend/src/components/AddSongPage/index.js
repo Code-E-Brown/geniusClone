@@ -178,9 +178,9 @@ export const AddSongPage = () => {
                     <Editor lyrics={lyrics} setLyrics={setLyrics} />
                     {/* <ReactQuill className="quill" onChange={(e) => setLyrics(e)} value={lyrics} /> */}
                 </div>
-                <div contentEditable='true' dangerouslySetInnerHTML={{ __html: lyrics }}>
+                {/* <div contentEditable='true' dangerouslySetInnerHTML={{ __html: lyrics }}>
 
-                </div>
+                </div> */}
                 <div className='addSong__lowerSection'>
                     <h3 className='tagLabel'>
                         Optional:
