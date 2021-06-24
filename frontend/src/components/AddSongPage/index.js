@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import { getArtists } from "../../store/artists"
+import { createArtist } from '../../store/artists';
 
 // import ReactQuill from 'react-quill';
 
@@ -32,7 +33,7 @@ export const AddSongPage = () => {
     useEffect(() => {
         dispatch(getArtists())
     }, [])
-
+    // console.log(artists)
     useEffect(() => {
         // let errors = []
         let emptyString = '         '
@@ -47,7 +48,7 @@ export const AddSongPage = () => {
         // setValidationErrors(errors)
     }, [by, title, tag, lyrics, youtubeLink, albumImage])
 
-    const submitButton = (e) => {
+    const submitButton = async (e) => {
 
         e.preventDefault()
         let errors = []
@@ -66,9 +67,10 @@ export const AddSongPage = () => {
             setValidationErrors(errors)
         }
 
+        const existingArtist = artists.find(artist => artist.title === by)
 
         const data = {
-            by,
+            by: existingArtist ? existingArtist.id : by,
             title,
             tag,
             lyrics,
@@ -78,7 +80,9 @@ export const AddSongPage = () => {
 
         if (errors.length === 0) {
             console.log(data)
-            // history.push('/')
+            let newSong = await dispatch(createArtist(data))
+            // console.log('boommmy', newSong)
+            history.push(`/songs/${newSong.id}`)
 
         }
 

@@ -1,3 +1,4 @@
+import { csrfFetch } from './csrf';
 const LOAD = 'artists/LOAD'
 const ADD_ONE = 'artists/ADD_ONE'
 
@@ -29,6 +30,29 @@ export const getOneArtist = (id) => async dispatch => {
         // console.log('we know', artistDetails)
         await dispatch(addOneArtist(artistDetails))
     }
+}
+
+export const createArtist = (payload) => async dispatch => {
+    if (typeof payload.by === "number") {
+        const response = await csrfFetch(`/api/artists/${payload.by}`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+            // headers: { "Content-Type": "application/json" }
+        })
+        if (response.ok) {
+            const newSong = await response.json()
+            return newSong
+            
+        }
+    }
+
+    // if (response.ok) {
+    //     const newArtist = await response.json()
+    //     console.log(newArtist)
+    //     // dispatch(addOneArtist(newArtist.id))
+    //     return newArtist
+    // }
+
 }
 
 const initialState = { list: [] }

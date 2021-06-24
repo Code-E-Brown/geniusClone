@@ -15,11 +15,37 @@ router.get('/', asyncHandler(async (req, res) => {
 }))
 
 
-router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
     const artist = await Artist.findByPk(req.params.id, {
         include: Song
     })
     res.json(artist)
+}))
+
+router.post('/:id(\\d+)/', requireAuth, asyncHandler(async (req, res) => {
+    const { id } = await Artist.findByPk(req.params.id)
+    let { title, tag, lyrics, youtubeLink, albumImage } = req.body
+    if (tag === 'rap') tag = 1;
+    if (tag === 'pop') tag = 2;
+    if (tag === 'rock') tag = 3;
+    if (tag === 'r&b') tag = 4;
+    if (tag === 'country') tag = 5;
+    if (tag === 'gospel') tag = 6;
+    if (tag === 'other') tag = 7;
+    let newSong = await Song.build({
+        artistId: id,
+        userId: req.user.id,
+        title,
+        tagId: tag,
+        lyrics,
+        imageUrl: albumImage,
+        youtubeUrl: youtubeLink
+    })
+
+    if (newSong) {
+        await newSong.save()
+        res.json(newSong)
+    }
 }))
 
 // router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
