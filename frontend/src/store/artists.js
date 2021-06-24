@@ -42,7 +42,40 @@ export const createArtist = (payload) => async dispatch => {
         if (response.ok) {
             const newSong = await response.json()
             return newSong
-            
+
+        }
+    } else {
+        const response = await csrfFetch(`/api/artists`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+        })
+        if (response.ok) {
+            const newArtist = await response.json()
+            // console.log('here you are!!', newArtist)
+            if (newArtist) {
+                const res = await csrfFetch(`/api/artists/${newArtist.id}`, {
+                    method: "POST",
+                    body: JSON.stringify(payload),
+                    // headers: { "Content-Type": "application/json" }
+                })
+                if (res.ok) {
+                    const newSong = await res.json()
+                    return newSong
+                }
+            }
+
+
+            // if (response.ok) {
+            //     const artists = await res.json();
+            //     // await dispatch(load(artists))
+            // }
+            // if (newArtist) {
+            //     await dispatch(load(artists))
+            //     // const res = await csrfFetch('/api/songs', {
+            //     //     method: "POST",
+            //     //     body: JSON.stringify(payload),
+            //     // })
+            // }
         }
     }
 

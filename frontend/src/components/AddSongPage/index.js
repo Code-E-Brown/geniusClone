@@ -30,6 +30,8 @@ export const AddSongPage = () => {
         return state.artists.list
     })
 
+    console.log('here they are', artists)
+
     useEffect(() => {
         dispatch(getArtists())
     }, [])
@@ -63,12 +65,16 @@ export const AddSongPage = () => {
         if (youtubeLink.trim() === emptyString.trim()) setYoutubeLink('')
         if (albumImage.trim() === emptyString.trim()) setAlbumImage('')
 
+
+        const existingArtist = artists.find(artist => artist.title === by)
+        if (existingArtist) {
+            let existingSong = existingArtist.Songs.find(song => song.title === title)
+            if (existingSong) errors.push('This song already exists by this artist')
+        }
+
         if (errors) {
             setValidationErrors(errors)
         }
-
-        const existingArtist = artists.find(artist => artist.title === by)
-
         const data = {
             by: existingArtist ? existingArtist.id : by,
             title,
@@ -79,11 +85,19 @@ export const AddSongPage = () => {
         }
 
         if (errors.length === 0) {
-            console.log(data)
-            let newSong = await dispatch(createArtist(data))
-            // console.log('boommmy', newSong)
-            history.push(`/songs/${newSong.id}`)
+            if (existingArtist) {
 
+                // console.log(data)
+                // await dispatch(createArtist(data))
+                const newSong = await dispatch(createArtist(data))
+                // console.log('boommmy', newSong)
+                // if (existingArtist.id)
+                history.push(`/songs/${newSong.id}`)
+            } else {
+                const newArtistNewSong = await dispatch(createArtist(data))
+                // console.log('new artist with new song!!',newArtistNewSong)
+                history.push(`/songs/${newArtistNewSong.id}`)
+            }
         }
 
     }

@@ -11,7 +11,7 @@ export const SongComments = () => {
 
     useEffect(() => {
         dispatch(getComments(songId))
-    }, [comments])
+    }, [dispatch])
 
     // comments.map(comment => (console.log(comment.body)))
 
@@ -21,7 +21,7 @@ export const SongComments = () => {
             <div>
                 <h1>Comments</h1>
                 {comments.map(comment => (
-                    <div key={comment}>
+                    <div key={comment.id}>
                         {comment.body}
                     </div>
                 ))

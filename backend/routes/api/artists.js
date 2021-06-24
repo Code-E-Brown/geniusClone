@@ -10,8 +10,23 @@ const router = express.Router();
 
 
 router.get('/', asyncHandler(async (req, res) => {
-    const artists = await Artist.findAll()
+    const artists = await Artist.findAll({
+        include: Song
+    })
     res.json(artists)
+}))
+
+router.post('/', asyncHandler(async (req, res) => {
+
+    let { by, title, tag, lyrics, albumImage, youtubeLink } = req.body
+    const newArtist = Artist.build({
+        title: by,
+        image: 'https://w7.pngwing.com/pngs/955/579/png-transparent-computer-icons-phonograph-record-compact-disc-others-miscellaneous-logo-monochrome.png'
+    })
+    if (newArtist) {
+        await newArtist.save()
+        res.json(newArtist)
+    }
 }))
 
 
