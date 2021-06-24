@@ -23,13 +23,9 @@ module.exports = {
         type: Sequelize.TEXT
       },
       startPos: {
-        unique: true,
-        allowNull: false,
         type: Sequelize.INTEGER
       },
       endPos: {
-        unique: true,
-        allowNull: false,
         type: Sequelize.INTEGER
       },
       imageUrl: {

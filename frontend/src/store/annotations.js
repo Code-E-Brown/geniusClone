@@ -1,4 +1,15 @@
 import { csrfFetch } from './csrf';
+const GET_ANNOTATIONS = 'song/annotations'
+
+const singleSongAnnotations = (annotations) => ({
+    type: GET_ANNOTATIONS,
+    annotations,
+})
+
+export const getAnnotationsForSong = (payload) => async dispatch => {
+    const response = await csrfFetch()
+}
+
 
 
 export const createAnnotation = (payload => async dispatch => {

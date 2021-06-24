@@ -51,8 +51,6 @@ router.post('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res)
         userId: req.user.id,
         songId: +req.params.id,
         body: req.body.testAnnotation,
-        startPos: 1,
-        endPos: 2
     })
 
     await annotation.save()

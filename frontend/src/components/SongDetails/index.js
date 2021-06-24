@@ -17,7 +17,7 @@ export const SongDetails = () => {
     useEffect(() => {
         // console.log(songId)
         dispatch(getOneSong(songId))
-    }, [songId])
+    }, [songId, dispatch])
 
     // console.log(selection)
     // if (window.getSelection().toString()) {
@@ -49,7 +49,7 @@ export const SongDetails = () => {
         setSelection(window.getSelection().toString())
     }
 
-    const editButton = (e) => {
+    const editButton = async (e) => {
         e.preventDefault();
         songId = +songId
         const testAnnotation = 'This is an annotation test'
@@ -62,7 +62,8 @@ export const SongDetails = () => {
         console.log('this is your payload', data)
 
         if (data) {
-            dispatch(createAnnotation(data))
+            await dispatch(createAnnotation(data))
+            await dispatch(getOneSong(songId))
             // setReloader(!reloader)
         }
     }
