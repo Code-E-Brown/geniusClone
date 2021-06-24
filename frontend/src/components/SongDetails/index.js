@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SongComments } from '../SongComments';
 import { createAnnotation } from '../../store/annotations';
+import './SongDetails.css'
 export const SongDetails = () => {
     let { songId } = useParams();
     const dispatch = useDispatch();
