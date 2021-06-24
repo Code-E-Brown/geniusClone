@@ -21,7 +21,7 @@ router.post('/', asyncHandler(async (req, res) => {
     let { by, title, tag, lyrics, albumImage, youtubeLink } = req.body
     const newArtist = Artist.build({
         title: by,
-        image: 'https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/06/music-logo-design.jpg'
+        image: 'https://raw.githubusercontent.com/Code-E-Brown/geniusClone/main/backend/images/CaptureLogo.PNG'
     })
     if (newArtist) {
         await newArtist.save()
@@ -47,7 +47,7 @@ router.post('/:id(\\d+)/', requireAuth, asyncHandler(async (req, res) => {
     if (tag === 'country') tag = 5;
     if (tag === 'gospel') tag = 6;
     if (tag === 'other') tag = 7;
-    if (albumImage === '') albumImage = 'https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/06/music-logo-design.jpg'
+    if (albumImage === '') albumImage = 'https://raw.githubusercontent.com/Code-E-Brown/geniusClone/main/backend/images/CaptureLogo.PNG'
     let newSong = await Song.build({
         artistId: id,
         userId: req.user.id,
