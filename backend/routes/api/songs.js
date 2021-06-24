@@ -8,6 +8,20 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+router.post('/', asyncHandler(async (req, res) => {
+    // console.log('here', req.body)
+    // by: 'asd',
+    // title: 'asd',
+    // tag: 'rap',
+    // lyrics: '<p>ss</p>',
+    // albumImage: '',
+    // youtubeLink: ''
+    // let {by}
+    // let song = await Song.build({
+
+    // })
+}))
+
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
     const song = await Song.findByPk(req.params.id, {
         include: [Artist, Tag]

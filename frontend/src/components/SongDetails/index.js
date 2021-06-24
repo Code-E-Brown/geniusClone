@@ -19,7 +19,10 @@ export const SongDetails = () => {
             <div>
                 <img src={song.imageUrl} />
                 <h1>{song.title}</h1>
-                <h2>By: {song.Artist.title}</h2>
+                <Link to={`/artists/${song.Artist.id}`}>
+                    <h2>By: {song.Artist.title}</h2>
+                </Link>
+
                 <h3>Tag: {song.Tag.title}</h3>
 
                 <a href={song.youtubeUrl}>
@@ -28,7 +31,8 @@ export const SongDetails = () => {
 
                 <div>
                     <h3>Lyrics:</h3>
-                    <div>{song.lyrics}</div>
+                    <div dangerouslySetInnerHTML={{ __html: song.lyrics }}></div>
+                    {/* <div>{song.lyrics}</div> */}
                 </div>
                 <SongComments id={song.id} />
             </div>
