@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Song, Artist, Tag, Comment } = require('../../db/models')
+const { Song, Artist, Tag, Comment, Annotation } = require('../../db/models')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -36,6 +36,36 @@ router.get('/:id(\\d+)/comments', asyncHandler(async (req, res) => {
         }
     })
     res.json(comments)
+}))
+router.post('/:id(\\d+)/annotations', asyncHandler(async (req, res) => {
+    // let { id } = req.params.id
+    // id = +id
+    // console.log(id, typeof id
+    console.log(req.params.id, typeof +req.params.id)
+    const song = await Song.findByPk(+req.params.id)
+    console.log(song)
+    console.log(req.body)
+    lyricsArray = song.lyrics.split('</p>')
+    console.log(lyricsArray)
+    let newArray = []
+    lyricsArray.forEach((line => {
+        if (line.includes(req.body.fullLine)) {
+            // console.log('includesFulllLine')
+            // console.log(line)
+            // line.replace(req.body.selection, `<a>${req.body.selection}</>`)
+            newArray.push(line.replace(req.body.selection, `<a>${req.body.selection}</a>`))
+        } else {
+            newArray.push(line)
+        }
+    }))
+    console.log('newkid', newArray.join('</p>'))
+    // const newLyrics = lyricsArray.join('')
+    // console.log(newLyrics)
+    // await song.Update({
+    //     lyrics
+    // })
+
+    res.json(song)
 }))
 
 module.exports = router;

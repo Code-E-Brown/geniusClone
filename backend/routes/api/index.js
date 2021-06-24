@@ -5,6 +5,7 @@ const artistsRouter = require('./artists.js')
 const songsRouter = require('./songs.js')
 const asyncHandler = require('express-async-handler');
 const commentsRouter = require('./comments')
+const annotationsRouter = require('./annotations')
 
 router.use('/session', sessionRouter);
 
@@ -12,7 +13,7 @@ router.use('/users', usersRouter);
 router.use('/artists', artistsRouter)
 router.use('/songs', songsRouter)
 router.use('/comments', commentsRouter)
-
+// router.use('/annotations', annotationsRouter)
 
 module.exports = router;
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import { getArtists } from "../../store/artists"
 import { createArtist } from '../../store/artists';
 
@@ -26,15 +26,16 @@ export const AddSongPage = () => {
     const [youtubeLink, setYoutubeLink] = useState('')
     const [validationErrors, setValidationErrors] = useState([])
 
+    const sessionUser = useSelector((state) => state.session.user);
     const artists = useSelector(state => {
         return state.artists.list
     })
 
-    console.log('here they are', artists)
 
     useEffect(() => {
         dispatch(getArtists())
     }, [])
+
     // console.log(artists)
     useEffect(() => {
         // let errors = []
@@ -63,8 +64,8 @@ export const AddSongPage = () => {
         if ((tag === '') || (!tag)) errors.push("Select tag. If unsure, select 'other'")
         if ((lyrics === '') || (!lyrics)) errors.push("Enter Lyrics")
         if (youtubeLink.trim() === emptyString.trim()) setYoutubeLink('')
-        if (albumImage.trim() === emptyString.trim()) setAlbumImage('')
 
+        if (albumImage.trim() === emptyString.trim()) setAlbumImage('')
 
         const existingArtist = artists.find(artist => artist.title === by)
         if (existingArtist) {
@@ -102,10 +103,8 @@ export const AddSongPage = () => {
 
     }
 
-    // useEffect(() => {
-    //     let errors = []
-    //     if
-    // }, [by, title, tag, lyrics, albumImage, youtubeLink])
+
+    if (!sessionUser) return <Redirect to="/login" />;
 
     return (
         <div className='addSong__form'>

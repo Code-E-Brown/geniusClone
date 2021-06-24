@@ -3,17 +3,66 @@ import { NavLink, Link, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SongComments } from '../SongComments';
+import { createAnnotation } from '../../store/annotations';
 export const SongDetails = () => {
-    const { songId } = useParams();
+    let { songId } = useParams();
     const dispatch = useDispatch();
     const song = useSelector(state => state.song[songId])
+    const [selection, setSelection] = useState('')
+    const [fullLine, setFullLine] = useState('')
 
-    // console.log(song)
+
 
     useEffect(() => {
         // console.log(songId)
         dispatch(getOneSong(songId))
     }, [songId])
+
+    // console.log(selection)
+    // if (window.getSelection().toString()) {
+    //     console.log(window.getSelection().toString())
+    //     console.log('2', window.getSelection().focusNode.parentNode.parentNode) // this gets you <p>lyrics<p>
+    // }
+
+    // const selectionFunction = (e) => {
+    //     e.preventDefault();
+    //     let selected = window.getSelection().toString()
+    //     setSelection(selected)
+    // }
+    // console.log(window.getSelection().focusNode.parentNode.parentNode) this is how to get the <div className lyrics>
+    useEffect(() => {
+        console.log(selection)
+        if (selection) {
+            // console.log('selections length:', selection.length)
+            // console.log('inside mouse up:', selection)
+            // console.log("full line:", window.getSelection().anchorNode.data)
+            // console.log(window.getSelection().anchorNode.data.indexOf(selection))
+            // console.log('editedFullString', window.getSelection().anchorNode.data.replace(selection, `<a>${selection}</a`))
+            // // console.log('object.values', Object.values(window.getSelection().focusNode.parentNode.parentNode))
+            // console.log(window.getSelection())
+            setFullLine(window.getSelection().anchorNode.data)
+        }
+    }, [selection])
+
+    const mouseUp = (e) => {
+        setSelection(window.getSelection().toString())
+    }
+
+    const editButton = (e) => {
+        e.preventDefault();
+        songId = +songId
+        const data = {
+            selection,
+            fullLine,
+            songId
+        }
+        console.log('this is your payload', data)
+
+        if (data) {
+            dispatch(createAnnotation(data))
+        }
+    }
+
     if (song) {
         return (
             <div>
@@ -30,8 +79,12 @@ export const SongDetails = () => {
                 </a>
 
                 <div>
+                    {selection.length > 0 &&
+                        <button onClick={editButton}>Edit</button>
+                    }
                     <h3>Lyrics:</h3>
-                    <div dangerouslySetInnerHTML={{ __html: song.lyrics }}></div>
+                    <div className='lyricsDivClass' onMouseUp={mouseUp} dangerouslySetInnerHTML={{ __html: song.lyrics }}></div>
+
                     {/* <div>{song.lyrics}</div> */}
                 </div>
                 <SongComments id={song.id} />
