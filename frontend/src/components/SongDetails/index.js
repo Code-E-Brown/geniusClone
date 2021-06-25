@@ -118,14 +118,22 @@ export const SongDetails = () => {
             setAnnotationId(+e.target.id)
             console.log('here is the annotation ID', annotationId)
             setAnnotationView(true)
+
             // if (annotationId) {
             // }
         }
     }
 
+    const ifViewTrueSetFalse = (e) => {
+        e.preventDefault()
+        if (annotationView === true) {
+            setAnnotationView(false)
+        }
+    }
+
     if (song) {
         return (
-            <div>
+            <div onClick={ifViewTrueSetFalse}>
                 <img src={song.imageUrl} />
                 {annotationView &&
                     < AnnotationViewModal annotations={song.Annotations} annotationId={annotationId} />
