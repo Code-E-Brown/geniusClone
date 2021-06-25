@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'userId'
     }
     Annotation.belongsToMany(models.User, columnMapping)
+    Annotation.hasMany(models.SubAnnotation, { foreignKey: 'annotationId' })
   };
   return Annotation;
 };

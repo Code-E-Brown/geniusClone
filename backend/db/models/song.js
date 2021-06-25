@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     Song.belongsTo(models.Tag, { foreignKey: 'tagId' })
     Song.hasMany(models.Comment, { foreignKey: 'songId' })
     Song.hasMany(models.Annotation, { foreignKey: 'songId' })
+    Song.hasMany(models.SubAnnotation, { foreignKey: 'songId' })
   };
   return Song;
 };
