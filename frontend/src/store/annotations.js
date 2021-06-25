@@ -1,14 +1,20 @@
 import { csrfFetch } from './csrf';
-const GET_ANNOTATIONS = 'song/annotations'
+const GET_ANNOTATIONS = 'song/annotation'
 
-const singleSongAnnotations = (annotations) => ({
+const singleSongAnnotation = (annotations) => ({
     type: GET_ANNOTATIONS,
     annotations,
 })
 
-// export const getAnnotationsForSong = (payload) => async dispatch => {
-//     const response = await csrfFetch()
-// }
+export const getAnnotationsForSong = (songId) => async dispatch => {
+    console.log('heres your song id', songId)
+    const response = await csrfFetch(`/api/songs/${songId}/annotations`)
+
+    if (response.ok) {
+        let annotations = await response.json()
+        console.log('youre in the fetcher', annotations)
+    }
+}
 
 
 
@@ -25,3 +31,23 @@ export const createAnnotation = (payload => async dispatch => {
     }
 
 })
+
+const initialState = {}
+
+const annotationsReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case GET_ANNOTATIONS: {
+            const annotationsForSong = {}
+            action.annotations.map(annotation => {
+                annotationsForSong[annotation.id] = annotation
+            })
+            return {
+                ...annotationsForSong,
+                ...state
+            }
+        }
+        default:
+            return state;
+    }
+}
+export default annotationsReducer;

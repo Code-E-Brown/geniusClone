@@ -54,17 +54,20 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Comment, { foreignKey: 'userId' })
     User.hasMany(models.Annotation, { foreignKey: 'userId' })
     User.hasMany(models.SubAnnotation, { foreignKey: 'userId' })
+
     const columnMapping = {
       through: 'CommentUpvote',
       foreignKey: 'userId',
       otherKey: 'commentId'
     }
     User.belongsToMany(models.Comment, columnMapping)
+
     const columnMappingTwo = {
       through: 'AnnotationUpvote',
       foreignKey: 'userId',
       otherKey: 'annotationId'
     }
+    
     User.belongsToMany(models.Annotation, columnMappingTwo)
     const columnMappingThree = {
       through: 'SubAnnotationUpvote',

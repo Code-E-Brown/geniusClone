@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Song, Artist, Tag, Comment, Annotation } = require('../../db/models')
+const { Song, User, Artist, Tag, Comment, Annotation, AnnotationUpvote } = require('../../db/models')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -37,6 +37,24 @@ router.get('/:id(\\d+)/comments', asyncHandler(async (req, res) => {
     })
     res.json(comments)
 }))
+
+router.get('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res) => {
+    // console.log(req.params.id)
+    const annotations = await Annotation.findAll({
+
+        where: {
+            songId: +req.params.id
+        },
+        include: ['Author', 'Upvotes']
+    })
+
+    console.log('inside the route', annotations)
+    annotations.forEach(annotation => {
+        console.log('users array', annotation.Upvotes.length)
+    })
+
+}))
+
 router.post('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res) => {
     // let { id } = req.params.id
     // id = +id
