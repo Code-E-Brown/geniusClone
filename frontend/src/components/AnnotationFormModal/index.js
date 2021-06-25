@@ -14,6 +14,7 @@ function AnnotationFormModal({ selection, fullLine, songId }) {
 
     return (
         <>
+        
             <button onClick={() => setShowModal(true)}>Edit</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>

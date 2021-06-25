@@ -13,6 +13,8 @@ export const SongDetails = () => {
     const sessionUser = useSelector((state) => state.session.user);
     const [selection, setSelection] = useState('')
     const [fullLine, setFullLine] = useState('')
+    const [tagType, setTagType] = useState('')
+    const [showEditButton, setShowEditButton] = useState(false)
 
     // const [reloader, setReloader] = useState(false)
 
@@ -38,8 +40,10 @@ export const SongDetails = () => {
     // }
     // console.log(window.getSelection().focusNode.parentNode.parentNode) this is how to get the <div className lyrics>
     useEffect(() => {
-        console.log(selection)
+        // console.log(selection)
         if (selection) {
+
+
             // console.log('selections length:', selection.length)
             // console.log('inside mouse up:', selection)
             // console.log("full line:", window.getSelection().anchorNode.data)
@@ -47,12 +51,30 @@ export const SongDetails = () => {
             // console.log('editedFullString', window.getSelection().anchorNode.data.replace(selection, `<a>${selection}</a`))
             // // console.log('object.values', Object.values(window.getSelection().focusNode.parentNode.parentNode))
             // console.log(window.getSelection())
+
             setFullLine(window.getSelection().anchorNode.data)
         }
     }, [selection])
 
     const mouseUp = (e) => {
-        setSelection(window.getSelection().toString())
+        // console.log('boi', tagType)
+        // console.log(tagType)
+        //  if (tagType) {
+        //         if (tagType === 'P') setShowEditButton(true)
+        //     }
+        // if (!window.getSelection().focusNode.parentNode.tagName === 'A') {
+
+        // }
+
+        // console.log('here', window.getSelection().focusNode.parentNode.childNodes)// if you select a line and it has ANY anchor tag inside, this is how you see it. ?? maybe not
+        // console.log('boolean', window.getSelection().focusNode.parentNode.tagName === 'A')// this line allows you to identify if it's a P or an A tag
+
+        if (window.getSelection().focusNode.parentNode.tagName === 'P') setSelection(window.getSelection().toString())
+        // setTagType(window.getSelection().focusNode.parentNode.tagName)
+
+
+        // if (tagType === "P") {
+        // }
     }
 
     const editButton = async (e) => {
@@ -96,8 +118,11 @@ export const SongDetails = () => {
                 </a>
 
                 <div>
-                    {selection.length > 0 && sessionUser &&
+
+                    {selection.length > 1 && sessionUser ? (
+
                         <AnnotationFormModal selection={selection} songId={songId} fullLine={fullLine} />
+                    ) : (null)
                         // <button onClick={editButton}>Edit</button>
                     }
                     <h3>Lyrics:</h3>
