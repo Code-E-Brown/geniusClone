@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { SongComments } from '../SongComments';
 import { createAnnotation } from '../../store/annotations';
 import AnnotationFormModal from '../AnnotationFormModal';
+import AnnotationViewModal from '../AnnotationViewModal';
+
+
 import './SongDetails.css'
 export const SongDetails = () => {
     let { songId } = useParams();
@@ -15,6 +18,9 @@ export const SongDetails = () => {
     const [fullLine, setFullLine] = useState('')
     const [tagType, setTagType] = useState('')
     const [showEditButton, setShowEditButton] = useState(false)
+    const [annotationId, setAnnotationId] = useState('')
+    const [annotationView, setAnnotationView] = useState(false)
+
 
     // const [reloader, setReloader] = useState(false)
 
@@ -57,6 +63,7 @@ export const SongDetails = () => {
     }, [selection])
 
     const mouseUp = (e) => {
+        e.preventDefault()
         // console.log('boi', tagType)
         // console.log(tagType)
         //  if (tagType) {
@@ -69,7 +76,12 @@ export const SongDetails = () => {
         // console.log('here', window.getSelection().focusNode.parentNode.childNodes)// if you select a line and it has ANY anchor tag inside, this is how you see it. ?? maybe not
         // console.log('boolean', window.getSelection().focusNode.parentNode.tagName === 'A')// this line allows you to identify if it's a P or an A tag
 
-        if (window.getSelection().focusNode.parentNode.tagName === 'P') setSelection(window.getSelection().toString())
+        if (window.getSelection().focusNode) {
+
+            if (window.getSelection().focusNode.parentNode.tagName === 'P') setSelection(window.getSelection().toString())
+        }
+
+
         // setTagType(window.getSelection().focusNode.parentNode.tagName)
 
 
@@ -99,13 +111,25 @@ export const SongDetails = () => {
 
     const testOnClick = (e) => {
         e.preventDefault()
+        setAnnotationView(false)
         console.log(e.target.id)
+        if (e.target.id && e.target.id !== '') {
+
+            setAnnotationId(+e.target.id)
+            console.log('here is the annotation ID', annotationId)
+            setAnnotationView(true)
+            // if (annotationId) {
+            // }
+        }
     }
 
     if (song) {
         return (
             <div>
                 <img src={song.imageUrl} />
+                {annotationView &&
+                    < AnnotationViewModal annotations={song.Annotations} annotationId={annotationId} />
+                }
                 <h1>{song.title}</h1>
                 <Link to={`/artists/${song.Artist.id}`}>
                     <h2>By: {song.Artist.title}</h2>
@@ -127,6 +151,7 @@ export const SongDetails = () => {
                     }
                     <h3>Lyrics:</h3>
                     <div className='lyricsDivClass' onClick={testOnClick} onMouseUp={mouseUp} dangerouslySetInnerHTML={{ __html: song.lyrics }}></div>
+                    {annotationView === true ? (<h1>YOUDITIT</h1>) : null}
 
                     {/* <div>{song.lyrics}</div> */}
                 </div>

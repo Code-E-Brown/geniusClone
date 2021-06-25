@@ -4,11 +4,19 @@ import { useDispatch } from "react-redux";
 import { getOneSong } from '../../store/songs';
 import { createAnnotation } from '../../store/annotations';
 
+
+
+
 function AnnotationForm({ selection, fullLine, songId, closeModal }) {
     const [annotationText, setAnnotationText] = useState('')
 
     // console.log(selection, fullLine, songId, editButton)
     // console.log(props)
+
+
+    // const closeModal = () => {
+    //     setShowModal(false)
+    // }
 
     const dispatch = useDispatch();
     const editButton = async (e) => {

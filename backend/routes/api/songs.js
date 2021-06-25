@@ -24,7 +24,7 @@ router.post('/', asyncHandler(async (req, res) => {
 
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
     const song = await Song.findByPk(req.params.id, {
-        include: [Artist, Tag]
+        include: [Artist, Tag, Annotation]
     })
     res.json(song)
 }))

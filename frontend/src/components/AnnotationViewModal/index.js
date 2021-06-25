@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import AnnotationForm from './AnnotationForm'
+import AnnotationView from './AnnotationView'
 
 
-function AnnotationFormModal({ selection, fullLine, songId }) {
+function AnnotationViewModal({ annotations, annotationId }) {
     const [showModal, setShowModal] = useState(false);
 
     const closeModal = () => {
@@ -13,14 +13,14 @@ function AnnotationFormModal({ selection, fullLine, songId }) {
     return (
         <>
 
-            <button onClick={() => setShowModal(true)}>Edit</button>
+            <button onClick={() => setShowModal(true)}>Viewer</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <AnnotationForm closeModal={closeModal} selection={selection} fullLine={fullLine} songId={songId} />
+                    <AnnotationView annotations={annotations} annotationId={annotationId} closeModal={closeModal} />
                 </Modal>
             )}
         </>
     );
 }
 
-export default AnnotationFormModal;
+export default AnnotationViewModal;
