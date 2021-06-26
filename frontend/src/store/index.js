@@ -5,13 +5,15 @@ import artists from "./artists";
 import song from './songs'
 import comments from './comments'
 import annotations from './annotations'
+import subAnnotations from './subAnnotations'
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   artists,
   song,
   comments,
-  annotations
+  annotations,
+  subAnnotations
 });
 
 let enhancer;

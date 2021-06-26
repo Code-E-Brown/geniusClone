@@ -1,3 +1,4 @@
+
 import { csrfFetch } from './csrf';
 const GET_ANNOTATIONS = 'song/annotation'
 
@@ -12,10 +13,10 @@ export const getAnnotationsForSong = (songId) => async dispatch => {
 
     if (response.ok) {
         let annotations = await response.json()
-        console.log('youre in the fetcher', annotations)
+        // console.log('youre in the fetcher', annotations)
+        await dispatch(singleSongAnnotation(annotations))
     }
 }
-
 
 
 export const createAnnotation = (payload => async dispatch => {

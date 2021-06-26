@@ -10,9 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     SubAnnotation.belongsTo(models.Annotation, { foreignKey: 'annotationId' })
     SubAnnotation.belongsTo(models.Song, { foreignKey: 'songId' })
-    SubAnnotation.belongsTo(models.User, { foreignKey: 'userId' })
+    SubAnnotation.belongsTo(models.User, { as: "Author", foreignKey: 'userId' })
     const columnMapping = {
       through: 'SubAnnotationUpvote',
+      as: "Upvotes",
       foreignKey: 'subAnnotationId',
       otherKey: 'userId'
     }

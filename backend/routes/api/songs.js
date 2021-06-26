@@ -2,9 +2,10 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Song, User, Artist, Tag, Comment, Annotation, AnnotationUpvote } = require('../../db/models')
+const { Song, User, Artist, Tag, Comment, Annotation, SubAnnotation } = require('../../db/models')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const annotation = require('../../db/models/annotation');
 
 const router = express.Router();
 
@@ -48,10 +49,37 @@ router.get('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res) 
         include: ['Author', 'Upvotes']
     })
 
-    console.log('inside the route', annotations)
-    annotations.forEach(annotation => {
-        console.log('users array', annotation.Upvotes.length)
+    res.send(annotations)
+
+
+}))
+router.get('/:id(\\d+)/annotations/:annotationId(\\d+)/subannotations', requireAuth, asyncHandler(async (req, res) => {
+    const subAnnotations = await SubAnnotation.findAll({
+        where: {
+            annotationId: +req.params.annotationId
+        },
+        include: ['Author', 'Upvotes']
     })
+
+    console.log('*** on the route', subAnnotations)
+    res.send(subAnnotations)
+
+}))
+router.post('/:id(\\d+)/annotations/:annotationId(\\d+)/subannotations', requireAuth, asyncHandler(async (req, res) => {
+    console.log(+req.params.id, +req.params.annotationId)
+    let { newAnnotationText } = req.body
+    console.log(newAnnotationText)
+    const subAnnotation = await SubAnnotation.build({
+        userId: req.user.id,
+        songId: +req.params.id,
+        annotationId: +req.params.annotationId,
+        body: newAnnotationText
+    })
+    console.log(subAnnotation)
+    if (subAnnotation) {
+        await subAnnotation.save()
+        res.json(subAnnotation)
+    }
 
 }))
 
@@ -61,8 +89,8 @@ router.post('/:id(\\d+)/annotations', requireAuth, asyncHandler(async (req, res)
     // console.log(id, typeof id
     console.log(req.params.id, typeof +req.params.id)
     const song = await Song.findByPk(+req.params.id)
-    console.log(song)
-    console.log(req.body)
+    // console.log(song)
+    // console.log(req.body)
     lyricsArray = song.lyrics.split('</p>')
     // console.log(lyricsArray)
     const annotation = await Annotation.build({

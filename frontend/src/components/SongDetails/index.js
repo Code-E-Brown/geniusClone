@@ -126,14 +126,19 @@ export const SongDetails = () => {
 
     const ifViewTrueSetFalse = (e) => {
         e.preventDefault()
-        if (annotationView === true) {
-            setAnnotationView(false)
+        // setAnnotationView(false)
+        if (e.target.className === "lyricsBox") {
+
+            if (annotationView === true) {
+                setAnnotationView(false)
+            }
         }
     }
 
     if (song) {
         return (
-            <div onClick={ifViewTrueSetFalse}>
+            <div>
+                {/* onClick={ifViewTrueSetFalse} */}
                 <img src={song.imageUrl} />
                 {annotationView &&
                     < AnnotationViewModal annotations={song.Annotations} annotationId={annotationId} />

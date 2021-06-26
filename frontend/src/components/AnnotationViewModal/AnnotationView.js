@@ -1,20 +1,51 @@
 import React, { useEffect, useState } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAnnotationsForSong } from "../../store/annotations";
+import { getSubAnnotationsForSong } from '../../store/subAnnotations'
+import { createSubAnnotation } from '../../store/subAnnotations'
 
 
-
-function AnnotationView({ annotationId, annotations }) {
+function AnnotationView({ annotationId, annotations, closeModal }) {
+    const [newAnnotationText, setNewAnnotationText] = useState('')
     // console.log(annotationId, annotations)
     const dispatch = useDispatch();
     let selectedAnnotation = annotations.find(annotation => annotation.id === annotationId)
     let currentSongId = annotations[0].songId
+    const songAnnotationsWithInclude = useSelector(state => {
+        return Object.values(state.annotations)
+    })
+    const subAnnotations = useSelector(state => {
+        return Object.values(state.subAnnotations)
+    })
+
+
+    const primaryAnnotationWithUpvotes = songAnnotationsWithInclude.find(annotation => annotation.id === annotationId)
+
     // console.log("******", annotationId, annotations, currentSongId)
     useEffect(() => {
         dispatch(getAnnotationsForSong(currentSongId))
     }, [dispatch])
-    
+
+    useEffect(async () => {
+        dispatch(getSubAnnotationsForSong(currentSongId, annotationId))
+    }, [dispatch])
+    // console.log(primaryAnnotationWithUpvotes)
+
+    const submitButton = async (e) => {
+        e.preventDefault()
+
+        const data = {
+            newAnnotationText
+        }
+        // console.log(data)
+        await dispatch(createSubAnnotation(data, currentSongId, annotationId))
+        closeModal()
+        // if (data) {
+        //     const newSubAnnotation = await dispatch(createSubAnnotation(data))
+        // }
+    }
+
     return (
         <div className='annotationBox'>
             <div className='mostPopularAnnotation'>
@@ -23,22 +54,16 @@ function AnnotationView({ annotationId, annotations }) {
             <form>
                 <label>Add another annotation!</label>
                 <div>:</div>
-                <textarea>
+                <textarea value={newAnnotationText} onChange={e => setNewAnnotationText(e.target.value)}>
                 </textarea>
-                <button>Submit Annotation</button>
+                <button onClick={submitButton}>Submit Annotation</button>
             </form>
-            {/* <div>
-                <div>
-                    This is where other annotations will go
-                </div>
-                <div>
-                    This is where other annotations will go
-                </div>
-                <div>
-                    This is where other annotations will go
-                </div>
-            </div> */}
-        </div>
+            <div>
+                {subAnnotations && subAnnotations.map(annotation => (
+                    <div key={annotation.id} > {annotation.body}</div>
+                ))}
+            </div>
+        </div >
     )
 }
 export default AnnotationView;

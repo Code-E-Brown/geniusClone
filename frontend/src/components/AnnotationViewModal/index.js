@@ -16,8 +16,8 @@ function AnnotationViewModal({ annotations, annotationId }) {
 
             {/* <button onClick={() => setShowModal(true)}>Viewer</button> */}
             {showModal && (
-                <Modal onClose={() => setShowModal(false)}>
-                    <AnnotationView annotations={annotations} annotationId={annotationId} closeModal={closeModal} />
+                <Modal onClose={closeModal}>
+                    <AnnotationView closeModal={closeModal} annotations={annotations} annotationId={annotationId} closeModal={closeModal} />
                 </Modal>
             )}
         </>

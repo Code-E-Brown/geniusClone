@@ -48,7 +48,7 @@ function AnnotationForm({ selection, fullLine, songId, closeModal }) {
                 <input onChange={e => setAnnotationText(e.target.value)} value={annotationText} type='text'></input>
             </form>
             <button onClick={editButton} type='submit'>Submit</button>
-        </div>
+        </div >
     )
 }
 
